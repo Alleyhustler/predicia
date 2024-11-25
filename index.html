@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicia</title>
+    <!-- Font link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>ù
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Astloch:wght@400;700&family=Freckle+Face&family=Lilita+One&family=Noto+Serif+SC:wght@200..900&family=Rubik+Broken+Fax&family=Shojumaru&display=swap" rel="stylesheet">
+    <style>
+        /* Rain effect */
+        .rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .raindrop {
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: rgba(141, 7, 255, 0.8); /* Rain color */
+            opacity: 0.7;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translate(var(--start-x), -50px) rotate(-75deg); /* Random horizontal starting point */
+                opacity: 1;
+            }
+            100% {
+                transform: translate(calc(var(--start-x) + 100vw), calc(100vh + 50px)) rotate(35deg); /* End at bottom right */
+                opacity: 0;
+            }
+        }
+
+        /* Randomly positioned raindrops */
+        .rain .raindrop:nth-child(odd) {
+            animation-duration: 3.5s;
+        }
+
+        .rain .raindrop:nth-child(even) {
+            animation-duration: 4.2s;
+        }
+
+        /* Adjust body to sit under the rain */
+        body {
+            font-family: "Shojumaru", system-ui;
+            background-color: #101010; /* Dark background for the terminal look */
+            background-image: url('b.webp');
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            overflow: hidden;
+        }
+
+        .social-links {
+            position: absolute;
+            writing-mode: vertical-rl;
+            top: 45%;
+            right: 120px; /* Adjust to position next to title */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .social-links a {
+            color: #8d07ff;
+            font-size: 24px;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            color: #0077b5; /* Twitter blue */
+        }
+
+        .social-links a.telegram:hover {
+            color: #0088cc; /* Telegram blue */
+        }
+    </style>
+</head>
+<body>
+    <!-- Rain Container -->
+    <div class="rain">
+        <!-- Generate raindrops -->
+        <script>
+            const rainContainer = document.querySelector('.rain');
+            for (let i = 0; i < 1000; i++) { // Increased number of drops for full coverage
+                const drop = document.createElement('div');
+                drop.classList.add('raindrop');
+                drop.style.setProperty('--start-x', Math.random() * window.innerWidth + 'px'); // Random X start
+                drop.style.animationDelay = Math.random() * 2 + 's'; // Random delay for each drop
+                drop.style.animationDuration = Math.random() * 3 + 2 + 's'; // Random duration for each drop
+                rainContainer.appendChild(drop);
+            }
+        </script>        
+    </div>
+
+    <!-- Terminal UI -->
+    <div class="terminal">
+        <div class="vertical-title">
+            FUTURE READER - PREDICIA
+        </div>
+        <div class="output">
+            <div class="command-line">Loading...</div>
+        </div>
+        <div class="user-input">
+            <span>&gt; </span><input type="text" id="commandInput" placeholder="Type a command..." autofocus>
+        </div>
+    </div>
+
+    <div class="social-links">
+        <a href="https://twitter.com" target="_blank">Twitter</a>
+        <a href="https://t.me" target="_blank" class="telegram">Telegram</a>
+    </div>
+    
+    <script>
+        // Simulating AI-like response with typing effect
+        let commandLine = document.querySelector('.command-line');
+        let output = ["READER ACTIVATED", "SYSTEM OPERATING", "INITIATING PROMPT..."];
+        let index = 0;
+        let typingEffect = () => {
+            if (index < output.length) {
+                let currentText = output[index];
+                let charIndex = 0;
+                commandLine.innerHTML = "";
+                let typingInterval = setInterval(() => {
+                    commandLine.innerHTML += currentText[charIndex];
+                    charIndex++;
+                    if (charIndex === currentText.length) {
+                        clearInterval(typingInterval);
+                        index++;
+                        setTimeout(typingEffect, 1000); // Delay before next message
+                    }
+                }, 100);
+            }
+        };
+        typingEffect();
+        
+        // Handling command input
+        const commandInput = document.getElementById("commandInput");
+        commandInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                let userCommand = commandInput.value;
+                output.push(`Executing: ${userCommand}`);
+                commandInput.value = "";
+                typingEffect();
+            }
+        });
+
+        const responses = {
+            "analyze": ["Analyzing quantum pathways...", "Calculation complete: Uncertainty is high.", "Processing...done."],
+            "predict": ["Future unknown. Suggest focusing on the present.", "AI predicts: Success rate at 78%.", "Outcome: Optimistic."],
+            "help": ["Available commands: analyze, predict, chill, joke.", "Help activated: Try typing 'analyze'."],
+            "joke": ["Why don't programmers like nature? Too many bugs.", "I'm on a seafood diet. I see food and I eat it.", "Error 404: Joke not found."],
+            "chill": ["Executing chill protocol...nah, just chilling.", "Relax mode activated. Take a deep breath.", "Chill response: All systems nominal."]
+        };
+
+        // Function to generate response
+        function generateResponse(command) {
+            const lowerCommand = command.toLowerCase();
+            if (responses[lowerCommand]) {
+                const randomIndex = Math.floor(Math.random() * responses[lowerCommand].length);
+                return responses[lowerCommand][randomIndex];
+            }
+            return `Unknown command: ${command}. Try 'help' for options.`;
+        }
+
+        commandInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                const userCommand = commandInput.value.trim();
+                const response = generateResponse(userCommand);
+                output.push(`> ${userCommand}`);
+                output.push(response);
+                commandInput.value = "";
+                typingEffect();
+            }
+        });
+
+    </script>
+</body>
+</html>

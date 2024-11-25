@@ -1,0 +1,107 @@
+/* Basic reset for the page */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: "Shojumaru", system-ui;
+    background-color: #101010; /* Dark background for the terminal look */
+    background-image: url('b.webp');
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    overflow: hidden;
+}
+
+/* Terminal Container */
+.terminal {
+    background-color: #00000063;
+    border-radius: 8px;
+    padding: 20px;
+    width: 80%;
+    max-width: 1000px;
+    box-shadow: 0 0 15px rgb(181 0 210 / 50%);
+}
+
+/* Vertical Title (command prompt-like text) */
+.vertical-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 36px;
+    font-weight: bold;
+    color: #8d07ff;
+    position: absolute;
+    left: 10px;
+    top: 20%;
+    font-family: "Shojumaru", system-ui;
+}
+
+/* Output Section */
+.output {
+    margin-top: 50px;
+    font-family: 'Rubik Broken Fax', monospace;
+    font-size: 22px;
+    line-height: 1.5;
+    height: 200px;
+    overflow-y: auto;
+}
+
+/* Command Line Text */
+.command-line {
+    font-family: "Shojumaru", system-ui;
+    color: #8d07ff;
+}
+
+/* User Input Section */
+.user-input {
+    margin-top: 20px;
+    display: flex;
+    font-size: 18px;
+}
+
+.user-input span {
+    color: #8d07ff;
+    font-weight: bold;
+}
+
+.user-input input {
+    background: transparent;
+    border: none;
+    color: #8d07ff;
+    width: 100%;
+    font-family: 'Rubik Broken Fax', monospace;
+    font-size: 18px;
+    padding: 10px;
+    outline: none;
+}
+
+/* Input on focus styling */
+.user-input input:focus {
+    border: 2px solid #8d07ff;
+    background-color: rgba(0, 255, 0, 0.1);
+}
+
+.social-links {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.social-links a {
+    margin: 0 10px;
+    color: #efefef;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    color: #0077b5; /* Twitter blue */
+}
+
+.social-links a.telegram:hover {
+    color: #0088cc; /* Telegram blue */
+}
